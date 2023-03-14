@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <link href="style.css" rel="stylesheet" />
+    <title>Mali Mineral Deposits</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+ 
+    <script>
+      const svgContainer = d3.select("#map").append("svg")
+        .attr("width", 800)
+        .attr("height", 800);
+
+      const svg = svgContainer.append("g")
+        .attr("id", "map-svg");
+
+        d3.xml("map.svg").then(data => {
+        const importedSVG = data.documentElement;
+        svg.node().appendChild(importedSVG);
+
+        const projection = d3.geoMercator()
+          .center([-8.031, 12.592]) // Mali
+          .scale(2350)
+          .translate([230,599]);
+
+        const circle = svg.append("circle")
+          .attr("cx", projection([-8.031, 12.592])[0])
+          .attr("cy", projection([-8.031, 12.592])[1])
+          .attr("r", 5)
+		  .attr('stroke', '#FF0000')
+          .style("fill", "none");
+
+        const circleref1 = svg.append("circle")
+          .attr("cx", projection([-6.571, 25.0])[0])
+          .attr("cy", projection([-6.571, 25.0])[1])
+          .attr("r", 5)
+		  .attr('stroke', '#00FF00')
+          .style("fill", "none");
+
+		d3.csv("/data.csv").then(data => {
+
+		// Add groups
+		const groups = svg.selectAll("g")
+			.data(data)
+			.enter().append("g")
+			.attr("transform", d => `translate(${projection([d.longitude, d.latitude])})`);
+
+         // add locations
+/*
+		  svg.selectAll("circle")
+			.data(data)
+			.enter().append("circle")
+			.attr("cx", d => projection([d.longitude, d.latitude])[0])
+			.attr("cy", d => projection([d.longitude, d.latitude])[1])
+			.attr("r", 5)
+			.style("fill", "#f7c873ff");
+*/
+	     // Add icons
+		  groups.append("image")
+			.attr("x", -16) // shift right by 10px
+			.attr("y", -16) // shift up by 10px
+			.attr("width", 32)
+			.attr("height", 32)
+			.attr("href", d => {
+			  if (d.category === "Aluminum") {
+				return "/i-aluminum.svg";
+			  } else if (d.category === "Diamond") {
+				return "/i-diamond.svg";
+			  } else if (d.category === "Diatomite") {
+				return "/i-diatomite.svg";
+			  } else if (d.category === "Gold") {
+				return "/i-gold.svg";
+			  } else if (d.category === "Lithium") {
+				return "/i-lithium.svg";
+			  } else if (d.category === "Manganese") {
+				return "/i-manganese.svg";
+			  } else if (d.category === "Phosphates") {
+				return "/i-phosphates.svg";
+			  } else {
+				return "/i-city.svg";
+			  }
+			});
+      
+
+   		// Add text labels
+		  svg.selectAll("text")
+			.data(data)
+			.enter().append("text")
+			.attr("x", d => projection([d.longitude, d.latitude])[0] + 15) // shift right by 10px
+			.attr("y", d => projection([d.longitude, d.latitude])[1])
+			.text(d => d.place);
+			  });
+
+		
+
+});
+    </script>
+  </body>
+</html>
