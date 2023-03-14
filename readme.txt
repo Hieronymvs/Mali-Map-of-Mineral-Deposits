@@ -1,6 +1,3 @@
-This is an ordinary folder used as the go-to location for web page testing.
+Work in progress.
 
-In PyCharm, navigate to this folder, then enter to start the server:
-
-python -m http.server
 
