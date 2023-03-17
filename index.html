@@ -2,6 +2,7 @@
 <html>
   <head>
    <link href="style.css" rel="stylesheet" />
+ <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Mali Mineral Deposits</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
@@ -9,9 +10,16 @@
     <div id="map"></div>
  
     <script>
+
+
       const svgContainer = d3.select("#map").append("svg")
         .attr("width", 800)
-        .attr("height", 800);
+        .attr("height", 900);
+
+      const projection = d3.geoMercator()
+          .center([-8.031, 12.592]) // Mali
+          .scale(2350)
+          .translate([230,699]);
 
       const svg = svgContainer.append("g")
         .attr("id", "map-svg");
@@ -20,25 +28,27 @@
         const importedSVG = data.documentElement;
         svg.node().appendChild(importedSVG);
 
-        const projection = d3.geoMercator()
-          .center([-8.031, 12.592]) // Mali
-          .scale(2350)
-          .translate([230,599]);
+        const tooltip = d3.select("body")
+       .append("div")
+       .attr("class", "tooltip")
+       .style("opacity", 0);
 
+/*
+        // scaling markers
         const circle = svg.append("circle")
           .attr("cx", projection([-8.031, 12.592])[0])
           .attr("cy", projection([-8.031, 12.592])[1])
           .attr("r", 5)
 		  .attr('stroke', '#FF0000')
           .style("fill", "none");
-
+       
         const circleref1 = svg.append("circle")
           .attr("cx", projection([-6.571, 25.0])[0])
           .attr("cy", projection([-6.571, 25.0])[1])
           .attr("r", 5)
 		  .attr('stroke', '#00FF00')
           .style("fill", "none");
-
+*/
 		d3.csv("/data.csv").then(data => {
 
 		// Add groups
@@ -47,16 +57,11 @@
 			.enter().append("g")
 			.attr("transform", d => `translate(${projection([d.longitude, d.latitude])})`);
 
-         // add locations
-/*
-		  svg.selectAll("circle")
-			.data(data)
-			.enter().append("circle")
-			.attr("cx", d => projection([d.longitude, d.latitude])[0])
-			.attr("cy", d => projection([d.longitude, d.latitude])[1])
-			.attr("r", 5)
-			.style("fill", "#f7c873ff");
-*/
+         // Add circle markers
+         groups.insert("circle", ":first-child")
+         .attr("r", 20)
+         .style("fill", "#f7c873FF");
+
 	     // Add icons
 		  groups.append("image")
 			.attr("x", -16) // shift right by 10px
@@ -81,19 +86,10 @@
 			  } else {
 				return "/i-city.svg";
 			  }
-			});
-      
-
-   		// Add text labels
-		  svg.selectAll("text")
-			.data(data)
-			.enter().append("text")
-			.attr("x", d => projection([d.longitude, d.latitude])[0] + 15) // shift right by 10px
-			.attr("y", d => projection([d.longitude, d.latitude])[1])
-			.text(d => d.place);
+			})
+            .append("title")
+            .text(d => d.place);
 			  });
-
-		
 
 });
     </script>

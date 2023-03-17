@@ -1,28 +1,28 @@
 place,latitude,longitude,category
-Luolonnnnnnnn,14.43389,-11.46526,Gold
-Kenieba,13.38396,-11.43187,Diamond
 Western Mali Bauxites,12.61742,-11.41527,Aluminum
-Tabakoto,13.20067,-10.28186,Gold
-Sinsinkourou-Bougouni Area,11.41748,-7.48186,Lithium
-Foulalaba Deposit,10.6675,-7.38217,Manganese
-Syama/Tabakoroni Bagoe Region,12.01743,-6.46525,Gold
-Kalana,11.30078,-5.63185,Gold
+Bamako,12,18,city
+Kayes,12,18,city
+Mopti,12,18,city
+Tombouctou,12,18,city
+Gao,12,18,city
+Kenieba,13.38396,-11.43187,Diamond
 Tabaghart,16.50041,-4.27212,Diatomite
 Tintawarwate,16.56707,-4.24018,Diatomite
 Obokite Le Petit,16.6004,-4.20268,Diatomite
 Daouna Beri,16.38792,-4.19851,Diatomite
 Adjintor,16.5504,-4.18184,Diatomite
 Obokite Le Grande,16.59207,-4.16101,Diatomite
-Le Daouna Keina,16.50041,-4.12351,Diatomite
+Daouna Keina,16.50041,-4.12351,Diatomite
 Koygouma,16.58373,-4.04018,Diatomite
 Dankari,16.6004,-3.9985,Diatomite
 Andjerou,16.6254,-3.94851,Diatomite
-Bamako,0,0,city
+Luolo,14.43389,-11.46526,Gold
+Tabakoto,13.20067,-10.28186,Gold
+Syama/Tabakoroni Bagoe Region,12.01743,-6.46525,Gold
+Kalana,11.30078,-5.63185,Gold
+Sinsinkourou-Bougouni Area,11.41748,-7.48186,Lithium
+Foulalaba Deposit,10.6675,-7.38217,Manganese
 Ofalikine,15.25046,0.10149,Manganese
+Ansongo,15.6671,0.48482,Manganese
 Tamaguillel,17.5836,0.25571,Phosphates
 Wadi Ganchiran,17.41701,0.33481,Phosphates
-Ansongo,15.6671,0.48482,Manganese
-Kayes,1,1,city
-Mopti,2,2,city
-Tombouctou,3,3,city
-Gao,4,4,city
