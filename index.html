@@ -1,97 +1,84 @@
 <!DOCTYPE html>
 <html>
   <head>
-   <link href="style.css" rel="stylesheet" />
- <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
     <title>Mali Mineral Deposits</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
     <div id="map"></div>
- 
+
     <script>
-
-
-      const svgContainer = d3.select("#map").append("svg")
-        .attr("width", 800)
-        .attr("height", 900);
+      const svgContainer = d3.select("#map").append("svg").attr("width", 800).attr("height", 900);
 
       const projection = d3.geoMercator()
-          .center([-8.031, 12.592]) // Mali
-          .scale(2350)
-          .translate([230,699]);
+        .center([-8.031, 12.592]) // Mali
+        .scale(2350)
+        .translate([230,699]);
 
-      const svg = svgContainer.append("g")
-        .attr("id", "map-svg");
+      const svg = svgContainer.append("g").attr("id", "map-svg");
 
-        d3.xml("map.svg").then(data => {
+      d3.xml("Mali_minerals_map.svg").then(data => {
         const importedSVG = data.documentElement;
         svg.node().appendChild(importedSVG);
+     d3.select(importedSVG).lower();
+      });
 
-        const tooltip = d3.select("body")
-       .append("div")
-       .attr("class", "tooltip")
-       .style("opacity", 0);
+      const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-/*
-        // scaling markers
-        const circle = svg.append("circle")
-          .attr("cx", projection([-8.031, 12.592])[0])
-          .attr("cy", projection([-8.031, 12.592])[1])
-          .attr("r", 5)
-		  .attr('stroke', '#FF0000')
-          .style("fill", "none");
-       
-        const circleref1 = svg.append("circle")
-          .attr("cx", projection([-6.571, 25.0])[0])
-          .attr("cy", projection([-6.571, 25.0])[1])
-          .attr("r", 5)
-		  .attr('stroke', '#00FF00')
-          .style("fill", "none");
-*/
-		d3.csv("/data.csv").then(data => {
+        d3.csv("data.csv").then(data => {
+        console.log(data);
 
-		// Add groups
-		const groups = svg.selectAll("g")
-			.data(data)
-			.enter().append("g")
-			.attr("transform", d => `translate(${projection([d.longitude, d.latitude])})`);
+        // Add groups
+        const groups = svg.selectAll("g")
+          .data(data)
+          .enter()
+          .append("g")
+          .attr("transform", d => `translate(${projection([d.longitude, d.latitude])})`);
 
-         // Add circle markers
-         groups.insert("circle", ":first-child")
-         .attr("r", 20)
-         .style("fill", "#f7c873FF");
+        // Add circle markers
+        groups.insert("circle", ":first-child")
+          .attr("r", 20)
+          .style("fill", "#f7c873FF");
 
-	     // Add icons
-		  groups.append("image")
-			.attr("x", -16) // shift right by 10px
-			.attr("y", -16) // shift up by 10px
-			.attr("width", 32)
-			.attr("height", 32)
-			.attr("href", d => {
-			  if (d.category === "Aluminum") {
-				return "/i-aluminum.svg";
-			  } else if (d.category === "Diamond") {
-				return "/i-diamond.svg";
-			  } else if (d.category === "Diatomite") {
-				return "/i-diatomite.svg";
-			  } else if (d.category === "Gold") {
-				return "/i-gold.svg";
-			  } else if (d.category === "Lithium") {
-				return "/i-lithium.svg";
-			  } else if (d.category === "Manganese") {
-				return "/i-manganese.svg";
-			  } else if (d.category === "Phosphates") {
-				return "/i-phosphates.svg";
-			  } else {
-				return "/i-city.svg";
-			  }
-			})
-            .append("title")
-            .text(d => d.place);
-			  });
+        // Add icons
+        groups.append("image")
+          .attr("x", -16) // shift right by 10px
+          .attr("y", -16) // shift up by 10px
+          .attr("width", 32)
+          .attr("height", 32)
+          .attr("href", d => {
+            if (d.category === "Aluminum") {
+              return "i-aluminum.svg";
+            } else if (d.category === "Diamond") {
+              return "i-diamond.svg";
+            } else if (d.category === "Diatomite") {
+              return "i-diatomite.svg";
+            } else if (d.category === "Gold") {
+              return "i-gold.svg";
+            } else if (d.category === "Lithium") {
+              return "i-lithium.svg";
+            } else if (d.category === "Manganese") {
+              return "i-manganese.svg";
+            } else if (d.category === "Phosphates") {
+              return "i-phosphates.svg";
+            } else {
+              return "i-city.svg";
+            }
+          })
+        // Add event listeners to show/hide tooltip
+        groups.on("mouseover", (event, d) => {
+        tooltip.transition().duration(200).style("opacity", 0.9);
+        tooltip.html(d.place).style("left", event.pageX + "px").style("top", event.pageY + "px");
+        }).on("mouseout", () => {
+        tooltip.transition().duration(500).style("opacity", 0);
+        });
 
-});
+      });
     </script>
   </body>
 </html>
